@@ -28,6 +28,7 @@ public class CustomBehavior : MonoBehaviour {
 			ChooseChoice();
 		});
 		backBtn.onClick.AddListener (() => {
+			PlayRandSound();
 			DestroyImmediate(gameObject);
 		});
 	}
@@ -52,12 +53,14 @@ public class CustomBehavior : MonoBehaviour {
 			}
 		}
 		upcomingChoice = choices[currentChoice];
-		Invoke ("LandOnChoice", 1f);
+		Invoke ("LandOnChoice", 2f);
 		InvokeRepeating ("VisualChoiceChange", 0.1f, 0.1f);
+		InvokeRepeating ("PlayRandSound", 0.1f, 0.1f);
 	}
 
 	public void LandOnChoice() {
 		CancelInvoke("VisualChoiceChange");
+		CancelInvoke ("PlayRandSound");
 		chooseBtn.interactable = true;
 		currentChoice.text = upcomingChoice;
 		print (upcomingChoice);
@@ -72,11 +75,16 @@ public class CustomBehavior : MonoBehaviour {
 	}
 
 	public void VisualChoiceChange () {
-		string newText = choices [Random.Range (0, choices.Count)];
+		string newText = choices [Random.Range (1, choices.Count)];
 		if (choices.Count > 1 && currentChoice.text.Equals (newText)) {
 			VisualChoiceChange ();
 		} else {
 			currentChoice.text = newText;
 		}
+	}
+
+	public void PlayRandSound() {
+		AudioClip sfx = Resources.Load ("Sound/"+Random.Range(1,10)) as AudioClip;
+		AudioSource.PlayClipAtPoint (sfx, Vector3.zero);
 	}
 }

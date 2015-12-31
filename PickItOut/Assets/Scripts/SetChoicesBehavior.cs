@@ -15,6 +15,7 @@ public class SetChoicesBehavior : MonoBehaviour {
 		doneBtn = transform.FindChild ("Content").FindChild ("Btns").FindChild ("DoneBtn").GetComponent<Button> ();
 
 		backBtn.onClick.AddListener (() => {
+			PlayRandSound();
 			DestroyImmediate(gameObject);
 		});
 		doneBtn.onClick.AddListener (() => {
@@ -30,8 +31,16 @@ public class SetChoicesBehavior : MonoBehaviour {
 				}
 			}
 			cb.Init(choices);
-
 		});
+	}
+
+	void Update() {
+	
+	}
+
+	public void PlayRandSound() {
+		AudioClip sfx = Resources.Load ("Sound/"+Random.Range(1,10)) as AudioClip;
+		AudioSource.PlayClipAtPoint (sfx, Vector3.zero);
 	}
 
 

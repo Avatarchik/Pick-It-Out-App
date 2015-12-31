@@ -18,20 +18,29 @@ public class AdPanelBehavior : MonoBehaviour {
 		playAdBtn.onClick.AddListener(() => {
 			PlayAVideo("vze08d53ef040643c598");
 			PersistantData.userData.lastAd = DateTime.Now;
+			PersistantData.userData.numAdsWatched++;
+			PersistantData.Save();
+			SetAdBtnState();
 		});
 		backBtn.onClick.AddListener(() => {
+			PlayRandSound();
 			gameObject.SetActive(false);
 		});
 	}
 	
-	// Update is called once per frame
-	void Update () {
+	void OnGUI() {
+		if (PersistantData.debugMode) {
+			GUI.Label (new Rect (10, 40, 150, 40), "" + PersistantData.userData.lastAd);
+			if (GUI.Button (new Rect (10, 80, 150, 40), "Clear Data")) {
+				PersistantData.ClearData ();
+			}
+		}
 	}
 
 	public void SetAdBtnState() {
 		if (PersistantData.userData.lastAd.AddHours (1.0) > DateTime.Now) {
-			int mins = (PersistantData.userData.lastAd.AddHours (1.0) - DateTime.Now).Minutes;
-			playAdBtn.transform.FindChild ("Text").GetComponent<Text> ().text = "Come back in " + mins + "minutes.";
+			int mins = ((PersistantData.userData.lastAd.AddHours (1.0) - DateTime.Now).Minutes); //+ (60 * PersistantData.userData.lastAd.Hour);
+			playAdBtn.transform.FindChild ("Text").GetComponent<Text> ().text = "Come back in " + (mins) + " minutes.";
 			playAdBtn.interactable = false;
 		} else {
 			playAdBtn.transform.FindChild ("Text").GetComponent<Text> ().text = "Tap here for ad!";
@@ -58,5 +67,10 @@ public class AdPanelBehavior : MonoBehaviour {
 		{
 			Debug.Log("Video Not Available");
 		}
+	}
+
+	public void PlayRandSound() {
+		AudioClip sfx = Resources.Load ("Sound/"+UnityEngine.Random.Range(1,10)) as AudioClip;
+		AudioSource.PlayClipAtPoint (sfx, Vector3.zero);
 	}
 }

@@ -27,26 +27,32 @@ public class MainMenuBehavior : MonoBehaviour {
 		rollDiceBtn = GameObject.FindGameObjectWithTag ("RollDiceBtn").GetComponent<Button>();
 		customBtn = GameObject.FindGameObjectWithTag ("CustomBtn").GetComponent<Button>();
 		supportBtn = GameObject.FindGameObjectWithTag ("SupportBtn").GetComponent<Button>();
-		adPanel = transform.FindChild ("AdPopup").gameObject;
+		adPanel = GameObject.FindGameObjectWithTag ("AdPopup");
+		adPanel.SetActive (false);
 
 		flipCoinBtn.onClick.AddListener(() => {
+			PlayRandSound();
 			GameObject page = Instantiate(flipCoinPrefab) as GameObject;
 			page.transform.SetParent(mainCanvas.transform, false);
 			page.transform.SetAsLastSibling();
 		});
 		rollDiceBtn.onClick.AddListener(() => {
+			PlayRandSound();
 			GameObject page = Instantiate(rollDicePrefab) as GameObject;
 			page.transform.SetParent(mainCanvas.transform, false);
 			page.transform.SetAsLastSibling();
 		});
 		customBtn.onClick.AddListener(() => {
+			PlayRandSound();
 			GameObject page = Instantiate(customPrefab) as GameObject;
 			page.transform.SetParent(mainCanvas.transform, false);
 			page.transform.SetAsLastSibling();
 		});
 		supportBtn.onClick.AddListener(() => {
+			PlayRandSound();
 			//PlayAVideo("vze08d53ef040643c598");
 			adPanel.SetActive(true);
+			adPanel.GetComponent<AdPanelBehavior>().SetAdBtnState();
 		});
 
 		// AdColony Stuff
@@ -58,7 +64,10 @@ public class MainMenuBehavior : MonoBehaviour {
 	
 	}
 
-	
+	public void PlayRandSound() {
+		AudioClip sfx = Resources.Load ("Sound/"+Random.Range(1,10)) as AudioClip;
+		AudioSource.PlayClipAtPoint (sfx, Vector3.zero);
+	}
 
 	public void InitializeAdStuff()
 	{

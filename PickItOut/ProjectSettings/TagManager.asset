@@ -9,6 +9,7 @@ TagManager:
   - CustomBtn
   - SupportBtn
   - MainCanvas
+  - AdPopup
   layers:
   - Default
   - TransparentFX

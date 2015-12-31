@@ -8,16 +8,13 @@ public class CoinFlipBehavior : MonoBehaviour {
 	Button flipBtn;
 	Button backBtn;
 
+	public AudioSource flipSound;
+
 	private bool isSpinning = false;
 	float chance = 0.5f;
 
 	void Awake() {
-		coinImg = transform.FindChild ("Content").FindChild ("CoinBG").FindChild("CoinImg").GetComponent<Image>();
-		flipBtn = transform.FindChild ("Content").FindChild ("Btns").FindChild ("FlipBtn").GetComponent<Button> ();
-		backBtn = transform.FindChild ("Content").FindChild ("Btns").FindChild ("BackBtn").GetComponent<Button> ();
-
-		flipBtn.onClick.AddListener (() => {FlipCoin();});
-		backBtn.onClick.AddListener (() => {DestroyImmediate(this.gameObject);});
+		
 	}
 
 	void Update() {
@@ -27,6 +24,7 @@ public class CoinFlipBehavior : MonoBehaviour {
 	}
 
 	public void FlipCoin() {
+		flipSound.Play ();
 		if ( Random.Range(0f, 1f) < chance) {
 			flipBtn.interactable = false;
 			isSpinning = true;
@@ -61,5 +59,10 @@ public class CoinFlipBehavior : MonoBehaviour {
 		} else {
 			coinImg.sprite = Resources.Load<Sprite> ("Tails") as Sprite;
 		}
+	}
+
+	public void PlayRandSound() {
+		AudioClip sfx = Resources.Load ("Sound/"+Random.Range(1,10)) as AudioClip;
+		AudioSource.PlayClipAtPoint (sfx, Vector3.zero);
 	}
 }
