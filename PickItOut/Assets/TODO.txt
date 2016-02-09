@@ -1,7 +1,4 @@
-Finish Dice Roll
-Finish Spinner
-Globals persistance
-Maketitle in app bar be title of mode
+Make dice roll more responsive (possibly using rotation)
 Design Audio
 Make ad page
 	^ With abilty to change globals after ad

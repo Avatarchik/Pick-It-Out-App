@@ -118,6 +118,12 @@ namespace MaterialUI
 		{
 			StartCoroutine (DelayedHeight());
 		}
+
+		public void SafeSetText (string s) {
+			state = 1;
+			selected = true;
+			displayText.text = s;
+		}
 		
 		void Update ()
 		{

@@ -10,6 +10,8 @@ TagManager:
   - SupportBtn
   - MainCanvas
   - AdPopup
+  - MaterialButtonLayer
+  - MaterialText
   layers:
   - Default
   - TransparentFX

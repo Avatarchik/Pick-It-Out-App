@@ -11,21 +11,19 @@ public class Coin : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
 	private bool isShrinking = false;
 
 	// Use this for initialization
-	void Awake () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	void Start () {
+		coinText.text = Globals.gamestate.currentCoinState;
 	}
 
 	public void FlipCoin() {
 		//flipSound.Play ();
-		if ( Random.Range(0f, 1f) < Globals.COIN_CHANCE_HEADS) {
+		if ( Random.Range(0f, 1f) < Globals.gamestate.COIN_CHANCE_HEADS) {
 			coinText.text = "Heads";
 		} else {
 			coinText.text = "Tails";
 		}
+		Globals.gamestate.currentCoinState = coinText.text;
+		Globals.Save ();
 	}
 
 	public void OnPointerDown(PointerEventData eventData) {

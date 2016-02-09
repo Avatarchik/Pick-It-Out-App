@@ -11,23 +11,19 @@ public class Dice : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+		die1.image.sprite = possibleStates[Globals.gamestate.currentDice1State];
+		die2.image.sprite = possibleStates[Globals.gamestate.currentDice2State];
 	}
 
 	public void RollDice() {
-		RollDie (die1);
-		RollDie (die2);
+		RollDie (die1, 1);
+		RollDie (die2, 2);
 	}
 
-	void RollDie(Button die) {
+	void RollDie(Button die, int dieNum) {
 		// Get total of all chance values.
 		int chanceSum = 0;
-		foreach (int i in Globals.DICE_CHANCES) {
+		foreach (int i in Globals.gamestate.DICE_CHANCES) {
 			chanceSum += i;
 		}
 
@@ -35,14 +31,19 @@ public class Dice : MonoBehaviour {
 		int r = Random.Range (0, chanceSum);
 
 		// Loop through chances in Globals to find which value was rolled
-		int diceNum = -1;
 		int j = 0;
-		for (int i = 0; i < Globals.DICE_CHANCES.Length; i++) {
+		for (int i = 0; i < Globals.gamestate.DICE_CHANCES.Length; i++) {
 			if (j >= r) {
 				die.image.sprite = possibleStates[i];
+				if (dieNum == 1) {
+					Globals.gamestate.currentDice1State = i;
+				} else {
+					Globals.gamestate.currentDice2State = i;
+				}
+				Globals.Save();
 				return;
 			}
-			j += Globals.DICE_CHANCES[i];
+			j += Globals.gamestate.DICE_CHANCES[i];
 		}
 	}
 }
